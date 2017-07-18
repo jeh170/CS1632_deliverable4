@@ -12,7 +12,7 @@ import org.junit.*;
 
 public class ProgramExecutorTest {
 
-    
+
     // ProgramStack, ProgramArea, MainPanel, ProgramExecutor
     // To be doubled - variable reused for each test
     ProgramStack _ps;
@@ -20,7 +20,7 @@ public class ProgramExecutorTest {
     MainPanel _mp;
     ProgramExecutor _e;
 
-    
+
     // Create simple doubles before each test and an actual ProgramExecutor
     // (as the latter is the class under test)
     // We can add specific verification/stubs to each double in each test,
@@ -40,6 +40,96 @@ public class ProgramExecutorTest {
 
     }
 
+    @Test
+    public void runSleepTime0() {
+            ProgramStack stack = new ProgramStack();
+            ProgramExecutor pe = new ProgramExecutor(mock(MainPanel.class), stack, mock(ProgramArea.class));
+
+            int testVal = 1;
+            int timeOfSleep = 0;
+            int tester;
+
+            stack.push(testVal);
+            pe.run(timeOfSleep);
+
+            tester = stack.get(0);
+
+            assertEquals(tester,testVal);
+    }
+
+    @Test
+    public void runSleepTime50() {
+            ProgramStack stack = new ProgramStack();
+            ProgramExecutor pe = new ProgramExecutor(mock(MainPanel.class), stack, mock(ProgramArea.class));
+
+            int testVal = 1;
+            int timeOfSleep = 50;
+            int tester;
+
+            stack.push(testVal);
+            pe.run(timeOfSleep);
+
+            tester = stack.get(0);
+
+            assertEquals(tester,testVal);
+    }
+
+    @Test
+    public void runSleepTime500() {
+            ProgramStack stack = new ProgramStack();
+            ProgramExecutor pe = new ProgramExecutor(mock(MainPanel.class), stack, mock(ProgramArea.class));
+
+            int testVal = 1;
+            int timeOfSleep = 500;
+            int tester;
+
+            stack.push(testVal);
+            pe.run(timeOfSleep);
+
+            tester = stack.get(0);
+
+            assertEquals(tester,testVal);
+    }
+
+    @Test
+    public void runSleepTime0NULLStack() {
+            ProgramStack stack = new ProgramStack();
+            ProgramExecutor pe = new ProgramExecutor(mock(MainPanel.class), stack, mock(ProgramArea.class));
+
+            int timeOfSleep = 0;
+
+            stack.add(null);
+            pe.run(timeOfSleep);
+
+            assertNull(stack.get(0));
+    }
+
+    @Test
+    public void runSleepTime50NULLStack() {
+            ProgramStack stack = new ProgramStack();
+            ProgramExecutor pe = new ProgramExecutor(mock(MainPanel.class), stack, mock(ProgramArea.class));
+
+            int timeOfSleep = 50;
+
+            stack.add(null);
+            pe.run(timeOfSleep);
+
+            assertNull(stack.get(0));
+    }
+
+    @Test
+    public void runSleepTime500NULLStack() {
+            ProgramStack stack = new ProgramStack();
+            ProgramExecutor pe = new ProgramExecutor(mock(MainPanel.class), stack, mock(ProgramArea.class));
+
+            int timeOfSleep = 500;
+
+            stack.add(null);
+            pe.run(timeOfSleep);
+
+            assertNull(stack.get(0));
+    }
+
     // Test the '+' (add) command.   3 + 3 should == 6.
     @Test
     public void testAdd() {
@@ -56,7 +146,7 @@ public class ProgramExecutorTest {
     	_e.subtract();
     	verify(_ps).push(1);
     }
-    
+
     // *   Multiplication: Pop two values a and b, then push the result of a*b
     @Test
     public void testMultiply() {
@@ -65,7 +155,7 @@ public class ProgramExecutorTest {
     	verify(_ps).push(10);
 
     }
-    
+
     //   Integer division: Pop two values a and b, then push the result of b/a, rounded down. If a is zero, return 0.
     // Check for "normal" (nonzero) division
     @Test
@@ -84,7 +174,7 @@ public class ProgramExecutorTest {
         verify(_ps).push(5);
 
     }
-    
+
     // /   Integer division: Pop two values a and b, then push the result of b/a, rounded down. If a is zero, return 0.
     // Check that dividing 0 divided by something returns 0
     @Test
@@ -130,7 +220,7 @@ public class ProgramExecutorTest {
 	_e.not();
 	verify(_ps).push(1);
     }
-    
+
     // `   Greater than: Pop two values a and b, then push 1 if b>a, otherwise zero.
     // Check b > a returns 1 ( 5 > 2 -> 1 )
     @Test
@@ -158,10 +248,10 @@ public class ProgramExecutorTest {
 	verify(_ps).push(0);
     }
 
-    
+
     //  *  _   Horizontal IF: pop a value; set direction to right if value=0, set to left otherwise
     // Check going right if value is 0
-    
+
     public void testHorizontalIfZero() {
 	when(_ps.pop()).thenReturn(0);
 	_e.horizontalIf();
@@ -169,7 +259,7 @@ public class ProgramExecutorTest {
     }
 
     //  *  _   Horizontal IF: pop a value; set direction to right if value=0, set to left otherwise
-    // Check going left if value is positive    
+    // Check going left if value is positive
     public void testHorizontalIfPositive() {
 	when(_ps.pop()).thenReturn(19);
 	_e.horizontalIf();
@@ -178,7 +268,7 @@ public class ProgramExecutorTest {
 
     //  *  _   Horizontal IF: pop a value; set direction to right if value=0, set to left otherwise
     // Check going left if value is positive
-    
+
     public void testHorizontalIfNegative() {
 	when(_ps.pop()).thenReturn(-3);
 	_e.horizontalIf();
