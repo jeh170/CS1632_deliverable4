@@ -293,12 +293,16 @@ public class MainPanel extends JPanel {
      * @param y y-pos of char to highlight
      */
 
+	public DefaultHighlighter.DefaultHighlightPainter highlightPainter;
+	public Object _lastHighlightTag;
+
     public void highlightChar(ProgramArea p, int x, int y) {
 	_pa.getHighlighter().removeAllHighlights();
 	try {
-	    DefaultHighlighter.DefaultHighlightPainter highlightPainter =
-		new DefaultHighlighter.DefaultHighlightPainter(
+		if (highlightPainter == null || !highlightPainter.getColor().equals(SystemSettings.getColor())){
+			highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(
 							       SystemSettings.getColor());
+		}
 	    int start = convertLocation(x, y);
 	    int end = start + 1;
 	    if (start > 0) {
