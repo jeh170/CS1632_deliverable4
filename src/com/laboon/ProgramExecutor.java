@@ -40,7 +40,7 @@ import java.util.*;
 // 0 – 9   Push corresponding number onto the stack
 
 public class ProgramExecutor {
-    
+
     // Random number generator.  Used solely for the '?' opcode.
     // Static because we don't really need a new RNG for each program
     // Also, no worries about thread safety since program execution is
@@ -73,10 +73,10 @@ public class ProgramExecutor {
 
     // True if anything to update on stack area, false otherwise
     private boolean _updateStack = false;
-    
+
     // True if anything to update on output area, false otherwise
     private boolean _updateOutput = false;
-    
+
     // Whether or not we are currently reading the input in as a string.
     // The opcode '"' puts us into string mode when first encountered, and
     // will exit that mode when a second '"' opcode is encountered.
@@ -96,8 +96,8 @@ public class ProgramExecutor {
 	    // System.out.println("String mode?" + _inStringMode);
 
 	    // If we are in string mode, read in char as the int version
-	    // of its ASCII value.  
-	    
+	    // of its ASCII value.
+
 	    if (_inStringMode) {
 		if (c == '"') {
 		    // Uncomment for debugging info
@@ -113,29 +113,29 @@ public class ProgramExecutor {
 	    }
 
 	    // If not in string entry mode, we are executing instructions
-	    
+
 	    switch (c) {
 
 		// (space) - ignore
 	    case ' ':
 		// DO NOTHING, KEEP MOVING
 		break;
-	    
+
 	    // +   Addition: Pop two values a and b, then push the result of a+b
 	    case '+':
 		add();
 		break;
 
-		// -   Subtraction: Pop two values a and b, then push the result of b-a	    
+		// -   Subtraction: Pop two values a and b, then push the result of b-a
 	    case '-':
 		subtract();
 		break;
-	    
+
 		// *   Multiplication: Pop two values a and b, then push the result of a*b
 	    case '*':
 		multiply();
 		break;
-		    
+
 		// /   Integer division: Pop two values a and b, then push the result of b/a, rounded down. According to the specifications, if a is zero, ask the user what result they want.
 	    case '/':
 		divide();
@@ -248,7 +248,7 @@ public class ProgramExecutor {
 		break;
 
 		// @   End program
-	    case '@':	
+	    case '@':
 		_programComplete = true;
 		break;
 		// 0 – 9   Push corresponding number onto the stack
@@ -265,17 +265,17 @@ public class ProgramExecutor {
 		int intC = Character.getNumericValue(c);
 		_ps.push(intC);
 		break;
-		
-	    default:  
+
+	    default:
 		System.err.println("'" + c + "' " + "(ASCII "
 				   + (int) c + ") NOT SUPPORTED!");
-	    
+
 	    }
 	} catch (EmptyStackException esex) {
 	    // Do nothing
 	}
 
-	
+
     }
 
     /**
@@ -286,7 +286,7 @@ public class ProgramExecutor {
 	_updateTa = true;
     }
 
-    
+
     /**
      * Called when Stack area should be updated this iteration
      */
@@ -307,17 +307,17 @@ public class ProgramExecutor {
      * Reset whether or not anything should be updated
      * Should be called at beginning of every execution step (iteration)
      */
-    
+
     private void resetUpdates() {
 	_updateTa = false;
 	_updateStack = false;
 	_updateOutput = false;
     }
-    
+
     /**
      * +   Addition: Pop two values a and b, then push the result of a+b
      */
-    
+
     public void add() {
 	shouldUpdateStack();
 	int a = _ps.pop();
@@ -335,7 +335,7 @@ public class ProgramExecutor {
 	int b = _ps.pop();
 	_ps.push(b - a);
     }
-    
+
     /**
      *   Multiplication: Pop two values a and b, then push the result of a*b
      */
@@ -346,11 +346,11 @@ public class ProgramExecutor {
 	int b = _ps.pop();
 	_ps.push(a * b);
     }
-    
+
     /**
      * /   Integer division: Pop two values a and b, then push the result of b/a, rounded down. If a is zero, return 0.
      */
- 
+
     public void divide() {
 	shouldUpdateStack();
 	int a = _ps.pop();
@@ -405,7 +405,7 @@ public class ProgramExecutor {
 	    _ps.push(0);
 	}
     }
-    
+
     /**
      * ?   Random PC direction
      */
@@ -445,7 +445,7 @@ public class ProgramExecutor {
     /**
      * |   Vertical IF: pop a value; set direction to down if value=0, set to up otherwise
      */
-    
+
     public void verticalIf() {
 	int a = _ps.pop();
 	if (a == 0) {
@@ -469,7 +469,7 @@ public class ProgramExecutor {
     /**
      * \   Swap top stack values
      */
-    
+
     public void swap() {
 	shouldUpdateStack();
 	int a = _ps.pop();
@@ -481,16 +481,16 @@ public class ProgramExecutor {
     /**
      * $   Pop (remove) top stack value and discard
      */
-    
+
     public void pop() {
 	shouldUpdateStack();
 	int a = _ps.pop();
     }
-    
+
     /**
      * .   Pop top of stack and output as integer
      */
-    
+
     public void printInt() {
 	shouldUpdateStack();
 	shouldUpdateOutput();
@@ -498,7 +498,7 @@ public class ProgramExecutor {
 	_mp.printInt(a);
 
     }
-    
+
     /**
      * ,   Pop top of stack and output as ASCII character
      */
@@ -510,12 +510,12 @@ public class ProgramExecutor {
     }
 
     /**
-     * g   A "get" call (a way to retrieve data in storage). 
+     * g   A "get" call (a way to retrieve data in storage).
      * Pop two values y and x, then push the ASCII value of the character
-     *  at that position in the program. 
+     *  at that position in the program.
      * If (x,y) is out of bounds, push 0
      */
-    
+
     public void get() {
 	shouldUpdateStack();
 	shouldUpdateTa();
@@ -531,12 +531,12 @@ public class ProgramExecutor {
     }
 
     /**
-     *  p   A "put" call (a way to store a value for later use). 
+     *  p   A "put" call (a way to store a value for later use).
      * Pop three values x, y and v, then change the character at
      * the position (x,y) in the program to the character with
      * ASCII value v
      */
-    
+
     public void put() {
 	shouldUpdateStack();
 	shouldUpdateTa();
@@ -550,11 +550,11 @@ public class ProgramExecutor {
 	}
 
     }
-    
+
     /**
      *  &   Get integer from user and push it
      */
-    
+
     public void getInt() {
 	shouldUpdateStack();
 	int x = _mp.getIntFromUser();
@@ -570,7 +570,7 @@ public class ProgramExecutor {
 	int newChar = _mp.getCharFromUser();
 	_ps.push(newChar);
     }
-    
+
 
     /**
      * Move the PC one space in the current direction.
@@ -578,7 +578,7 @@ public class ProgramExecutor {
      * if we hit -1, go to _xSize - 1, or if we hit _xSize, go to
      * 0.
      */
-    
+
     public void moveOneSpace() {
 	switch (_d) {
 	case LEFT:
@@ -615,7 +615,7 @@ public class ProgramExecutor {
      * Get and execute the next instruction, and then move to the next
      * instruction.  One "step" of program execution.
      */
-    
+
     public void executeOneStep() {
 	// Get character at current location and execute it
 	char opCode = _pa.getOpCode(_x, _y);
@@ -634,7 +634,7 @@ public class ProgramExecutor {
      * @param ps ProgramStack to use
      * @param pa ProgramArea (text of program) to execute
      */
-    
+
     public ProgramExecutor(MainPanel mp, ProgramStack ps, ProgramArea pa) {
 	_mp = mp;
 	_pa = pa;
@@ -669,11 +669,11 @@ public class ProgramExecutor {
 	return _programComplete;
 
     }
-    
+
     /**
      * Run current program for this Executor
      */
-    
+
     public void run(int sleepTime) {
 	// Continue while program is not finished running
 	// AND stop button not pressed
@@ -692,12 +692,16 @@ public class ProgramExecutor {
 		}
 	    }
 	    resetUpdates();
-	    _mp.highlightChar(_pa, _x, _y);
 	    executeOneStep();
-	    _mp.setStack(_ps.toString());
-	    _mp.refresh(_updateTa, _updateStack, _updateOutput);
+            if (sleepTime > 0) {
+                    _mp.highlightChar(_pa, _x, _y);
+                    _mp.setStack(_ps.toString());
+                    _mp.refresh(_updateTa, _updateStack, _updateOutput);
+            }
 	}
+        _mp.setStack(_ps.toString());
+        _mp.refresh(_updateTa, _updateStack, _updateOutput);
     }
 
-    
+
 }
