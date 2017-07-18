@@ -699,8 +699,11 @@ public class ProgramExecutor {
                     _mp.refresh(_updateTa, _updateStack, _updateOutput);
             }
 	}
-        _mp.setStack(_ps.toString());
-        _mp.refresh(_updateTa, _updateStack, _updateOutput);
+        if (sleepTime == 0) {
+                _mp.setStack(_ps.toString());
+                _mp.refresh(_updateTa, _updateStack, _updateOutput);
+        }
+
     }
 
 
