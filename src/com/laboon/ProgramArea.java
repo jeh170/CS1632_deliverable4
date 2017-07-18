@@ -1,7 +1,7 @@
-package com.laboon;
+ package com.laboon;
 
 /**
- * The actual input program, converted from a big String to an 
+ * The actual input program, converted from a big String to an
  * m * n array of chars.
  */
 
@@ -26,7 +26,7 @@ public class ProgramArea {
      * Fills up the program area with spaces (the "ignore" opcode)
      * before reading in the program.
      */
-    
+
     private void fillUpSpaces() {
 	// Fill up area with spaces to start
 	for (int j = 0; j < DEFAULT_X_SIZE; j++) {
@@ -41,16 +41,16 @@ public class ProgramArea {
      * Constructor
      * @param init - The initial string of the program
      */
-    
+
     public ProgramArea(String init) {
 
 	// Fill up initial board with spaces
-	
+
 	fillUpSpaces();
 
 	// Read the string in, converting it into lines, and then
 	// putting  each character in a line into the main char array
-	
+
 	String[] lines = init.split("\n");
 	String line;
 
@@ -61,7 +61,7 @@ public class ProgramArea {
 	if (len > _xSize) {
 	    len = _xSize;
 	}
-	
+
 	for (int j = 0; j < len; j++) {
 	    line = lines[j];
 	    lineLen = line.length();
@@ -75,14 +75,14 @@ public class ProgramArea {
 	    }
 	}
 
-	
+
     }
 
     /**
      * Default constructor.
      * Creates a ProgramArea which is all spaces
      */
-    
+
     public ProgramArea() {
 	fillUpSpaces();
     }
@@ -94,7 +94,7 @@ public class ProgramArea {
      * @param y y-coordinate
      * @return char The opcode (char) at that location
      */
-    
+
     public char getOpCode(int x, int y) {
 	if (x >= _xSize || x < 0 || y >= _ySize || y < 0) {
 	    return (char) 0;
@@ -110,7 +110,7 @@ public class ProgramArea {
      * @param y y-coordinate
      * @return char The opcode (char) to set at that location
      */
-    
+
     public void setOpCode(int x, int y, char v) {
 	if (x >= _xSize || x < 0 || y >= _ySize || y < 0) {
 	    // Ignore
@@ -121,7 +121,7 @@ public class ProgramArea {
 
     /**
      * Returns whether or not the program has "end" opcode.
-     * If it does not, you may not want to run it - it 
+     * If it does not, you may not want to run it - it
      * may run forever!
      * @return true if @ symbol exists, false otherwise
      */
@@ -137,7 +137,7 @@ public class ProgramArea {
 	}
 	return hasEnd;
     }
-    
+
     /**
      * Convert the ProgramArea back into a String
      * @return String string representation of the ProgramArea
@@ -153,5 +153,5 @@ public class ProgramArea {
 	}
 	return sb.toString();
     }
-    
+
 }
